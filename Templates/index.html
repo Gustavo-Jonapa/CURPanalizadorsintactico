@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de CURP - Analizador Sintáctico</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Generador de CURP</h1>
+        <p class="subtitle">Analizador Léxico y Sintáctico</p>
+        
+        <form method="post" id="curpForm">
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input 
+                    type="text" 
+                    id="nombre"
+                    name="nombre" 
+                    placeholder="Ej: Juan"
+                    value="{{ request.form.nombre if request.form else '' }}"
+                    required>
+                <small>Solo letras, primera en mayúscula</small>
+            </div>
+
+            <div class="form-group">
+                <label for="apellido1">Primer Apellido:</label>
+                <input 
+                    type="text"
+                    id="apellido1" 
+                    name="apellido1" 
+                    placeholder="Ej: García"
+                    value="{{ request.form.apellido1 if request.form else '' }}"
+                    required>
+                <small>Apellido paterno</small>
+            </div>
+
+            <div class="form-group">
+                <label for="apellido2">Segundo Apellido:</label>
+                <input 
+                    type="text"
+                    id="apellido2" 
+                    name="apellido2" 
+                    placeholder="Ej: López"
+                    value="{{ request.form.apellido2 if request.form else '' }}"
+                    required>
+                <small>Apellido materno</small>
+            </div>
+
+            <div class="form-group">
+                <label for="fecha">Fecha de Nacimiento:</label>
+                <input 
+                    type="date"
+                    id="fecha" 
+                    name="fecha"
+                    value="{{ request.form.fecha if request.form else '' }}"
+                    min="1900-01-01"
+                    max="{{ now.strftime('%Y-%m-%d') if now else '2025-12-31' }}"
+                    required>
+                <small>Formato: AAAA-MM-DD</small>
+            </div>
+
+            <div class="form-group">
+                <label for="sexo">Sexo:</label>
+                <select name="sexo" id="sexo" required>
+                    <option value="">-- Seleccionar --</option>
+                    <option value="H" {% if request.form.sexo == 'H' %}selected{% endif %}>Hombre</option>
+                    <option value="M" {% if request.form.sexo == 'M' %}selected{% endif %}>Mujer</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="estado">Estado de Nacimiento:</label>
+                <select name="estado" id="estado" required>
+                    <option value="">-- Seleccionar --</option>
+                    <option value="AS">Aguascalientes</option>
+                    <option value="BC">Baja California</option>
+                    <option value="BS">Baja California Sur</option>
+                    <option value="CC">Campeche</option>
+                    <option value="CL">Coahuila</option>
+                    <option value="CM">Colima</option>
+                    <option value="CS">Chiapas</option>
+                    <option value="CH">Chihuahua</option>
+                    <option value="DF">Ciudad de México</option>
+                    <option value="DG">Durango</option>
+                    <option value="GT">Guanajuato</option>
+                    <option value="GR">Guerrero</option>
+                    <option value="HG">Hidalgo</option>
+                    <option value="JC">Jalisco</option>
+                    <option value="MC">México</option>
+                    <option value="MN">Michoacán</option>
+                    <option value="MS">Morelos</option>
+                    <option value="NT">Nayarit</option>
+                    <option value="NL">Nuevo León</option>
+                    <option value="OC">Oaxaca</option>
+                    <option value="PL">Puebla</option>
+                    <option value="QT">Querétaro</option>
+                    <option value="QR">Quintana Roo</option>
+                    <option value="SP">San Luis Potosí</option>
+                    <option value="SL">Sinaloa</option>
+                    <option value="SR">Sonora</option>
+                    <option value="TC">Tabasco</option>
+                    <option value="TS">Tamaulipas</option>
+                    <option value="TL">Tlaxcala</option>
+                    <option value="VZ">Veracruz</option>
+                    <option value="YN">Yucatán</option>
+                    <option value="ZS">Zacatecas</option>
+                    <option value="NE">Nacido en el Extranjero</option>
+                </select>
+                <small>Clave de dos letras del estado</small>
+            </div>
+
+            <button type="submit" class="btn-primary">
+                Generar CURP
+            </button>
+        </form>
+
+        {% if errores %}
+            <div class="errores">
+                <h2>Errores Detectados:</h2>
+                <ul>
+                {% for error in errores %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+                </ul>
+                <p class="help-text">Por favor corrige los errores e intenta nuevamente.</p>
+            </div>
+        {% endif %}
+
+        {% if curp %}
+            <div class="resultado">
+                <h2>CURP Generada</h2>
+                <div class="curp-display">
+                    <p class="curp-label"></p>
+                    <p class="curp-value">{{ curp }}</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
