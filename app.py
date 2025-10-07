@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from parser import analizar
 from curp_utils import generar_curp, formatear_curp
+import os
 
 app = Flask(__name__)
 
@@ -102,4 +103,6 @@ def api_generar():
         }), 500
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    import sys
+    is_production = '--production' in sys.argv or os.environ.get('VERCEL')
+    app.run(debug=not is_production, port=5001)
