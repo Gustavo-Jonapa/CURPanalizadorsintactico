@@ -1,8 +1,13 @@
 from flask import Flask, render_template, request, jsonify
 from parser import analizar
 from curp_utils import generar_curp, formatear_curp
+import os
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    template_folder=os.path.join(os.path.dirname(__file__), '../Templates'),
+    static_folder=os.path.join(os.path.dirname(__file__),'../static')
+)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -102,4 +107,4 @@ def api_generar():
         }), 500
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
