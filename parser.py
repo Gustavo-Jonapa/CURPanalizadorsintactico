@@ -47,7 +47,7 @@ def validar_palabra(palabra, tipo, posicion):
         errores.append(f"{tipo} '{palabra}' es demasiado corto (mínimo 2 caracteres)")
 
 def validar_fecha(fecha, posicion):
-    if not re.match(r'^\d{2}-\d{2}-\d{4}$', fecha):
+    if not re.match(r'^\d{4}-\d{2}-\d{2}$', fecha):
         errores.append(f"Fecha '{fecha}' debe estar en formato AAAA-MM-DD")
         return
     
