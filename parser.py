@@ -15,7 +15,7 @@ def p_input(p):
     fecha = p[4]
     sexo = p[5]
     estado = p[6]
-    
+
     validar_palabra(nombre, "Nombre", 1)
     validar_palabra(apellido1, "Primer apellido", 2)
     validar_palabra(apellido2, "Segundo apellido", 3)
@@ -47,7 +47,7 @@ def validar_palabra(palabra, tipo, posicion):
         errores.append(f"{tipo} '{palabra}' es demasiado corto (mínimo 2 caracteres)")
 
 def validar_fecha(fecha, posicion):
-    if not re.match(r'^\d{4}-\d{2}-\d{2}$', fecha):
+    if not re.match(r'^\d{2}-\d{2}-\d{4}$', fecha):
         errores.append(f"Fecha '{fecha}' debe estar en formato AAAA-MM-DD")
         return
     
